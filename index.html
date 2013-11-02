@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Single Day Calendar</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <style type="text/css">
+          .calendar-wrapper {
+
+          }
+
+          .calendar-wrapper .time {
+            width: 60px;
+            height: 820px;
+            display: inline-block;
+            position: relative;
+          }
+
+          .calendar-wrapper .time .time-label {
+            position: absolute;
+            right: 10px;
+          }
+
+          .calendar-wrapper .events {
+            background: #EDEDED;
+            width: 510px;
+            height: 800px;
+            display: inline-block;
+            border-left: 1px solid #ADADAD;
+            margin: 10px 0px;
+            padding: 0px 10px;
+            position: relative;
+          }
+
+          .calendar-wrapper .events .event {
+            position: absolute;
+            background: white;
+            border: 1px solid #ADADAD;
+            box-sizing: border-box;
+          }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-xs-12">
+              <div class="calendar-wrapper"></div>
+            </div>
+          </div>
+        </div>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="calendar.js"></script>
+        <script type="text/javascript">
+          var events;
+          events = [
+            {
+              id: 0,
+              start: 330,
+              end: 400
+            }, {
+              id: 1,
+              start: 700,
+              end: 900
+            }, {
+              id: 2,
+              start: 1210,
+              end: 1300
+            }, {
+              id: 3,
+              start: 1400,
+              end: 1600
+            }, {
+              id: 4,
+              start: 1500,
+              end: 1700
+            }, {
+              id: 5,
+              start: 1530,
+              end: 1930
+            }, {
+              id: 6,
+              start: 1830,
+              end: 2330
+            }
+          ]
+          $(".calendar-wrapper").calendar({events: events})
+        </script>
+
+    </body>
+</html>
