@@ -5,36 +5,38 @@ class Calendar
     width:  600
 
   template:
-    calendar: """<div class="time"></div><div class="events"></div>"""
-    hour:     """<div class="time-label"/>"""
-    event:    """<div class="event" />"""
+    events: """<div class="events"></div>"""
+    time:   """<div class="time"></div>"""
+    hour:   """<div class="time-label"/>"""
+    event:  """<div class="event" />"""
+    currentTime: """<div class="current-time"></div>"""
 
   constructor: (el, options) ->
-    @opts    = $.extend {}, @defaults, options
-    @$el     = $(el)
+    @opts           = $.extend {}, @defaults, options
+    @$el            = $(el)
+    @hourSection    = $(@template.time)
+    @eventsSection  = $(@template.events)
+    @currentTimeBar = $(@template.currentTime)
 
     # Replace content with template
-    @$el.html @template.calendar
-
-    @hourSection   = @$el.find ".time"
-    @eventsSection = @$el.find ".events"
+    @$el.empty().append @hourSection, @eventsSection
+    @eventsSection.append @currentTimeBar
+    @$el.css
+      width: @opts.width
 
     @events = @opts.events.sort (a,b) ->
       a.start - b.start
 
-    @startHour = 24
-    @endHour   = 0
-    for event in @events
-      if (start = Math.floor(event.start / 100)) < @startHour
-        @startHour = start
-      if (end = Math.floor(event.end / 100)) > @endHour
-        @endHour = end
+    @startHour = 0
+    @endHour   = 23
     @interval  = @opts.height / (@endHour - @startHour)
 
     @processEvents()
 
     @populateHours()
     @populateEvents()
+
+    @setCurrentTime()
 
   processEvents: ->
     columnsY = [{top: 0, bottom: 0}]
@@ -53,7 +55,7 @@ class Calendar
       for columnY, i in columnsY
         # when there is an available slot
         if top >= columnY.bottom
-          columnsY[i]  = currentColY
+          columnsY[i]   = currentColY
           event.column ?= i
           event.width++
 
@@ -91,6 +93,14 @@ class Calendar
           width:  "#{width}%"
           left:   "#{width * event.column}%"
         .appendTo @eventsSection
+
+  setCurrentTime: ->
+    interval = 60/@interval * 1000
+    (updatePosition = =>
+      now = new Date()
+      top = @interval * (now.getHours() - @startHour + now.getMinutes()/60)
+      @currentTimeBar.css {top})()
+    setInterval updatePosition, interval
 
 $.fn.extend calendar: (options, args...) ->
   this.each ->
