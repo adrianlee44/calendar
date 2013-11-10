@@ -1,0 +1,6 @@
+.calendar-wrapper{position:relative;}
+.calendar-wrapper .time{width:10%;height:820px;display:inline-block;position:relative;}
+.calendar-wrapper .time .time-label{position:absolute;right:10px}
+.calendar-wrapper .events{background:#ededed;width:90%;height:800px;display:inline-block;border-left:1px solid #adadad;margin:10px 0;padding:0 10px;position:relative;}
+.calendar-wrapper .events .event{position:absolute;background:#fff;border:1px solid #adadad;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-border-radius:4px;border-radius:4px;padding:3px;overflow:hidden}
+.calendar-wrapper .events .current-time{border:1px solid #000;width:100%;position:absolute;left:0}
