@@ -10,11 +10,11 @@
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
         <style type="text/css">
           .calendar-wrapper {
-
+            position: relative;
           }
 
           .calendar-wrapper .time {
-            width: 60px;
+            width: 10%;
             height: 820px;
             display: inline-block;
             position: relative;
@@ -27,7 +27,7 @@
 
           .calendar-wrapper .events {
             background: #EDEDED;
-            width: 510px;
+            width: 90%;
             height: 800px;
             display: inline-block;
             border-left: 1px solid #ADADAD;
@@ -41,6 +41,16 @@
             background: white;
             border: 1px solid #ADADAD;
             box-sizing: border-box;
+            border-radius: 4px;
+            padding: 3px;
+            overflow: hidden;
+          }
+
+          .current-time {
+            border: 1px solid #000;
+            width: 100%;
+            position: absolute;
+            left: 0px;
           }
         </style>
 
