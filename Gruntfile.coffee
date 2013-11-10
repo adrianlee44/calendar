@@ -7,7 +7,14 @@ module.exports = (grunt) ->
     coffee:
       app:
         files:
-          "calendar.js": "calendar.coffee"
+          "calendar.js": "src/calendar.coffee"
+
+    stylus:
+      app:
+        options:
+          import: ["nib"]
+        files:
+          "calendar.css": "src/calendar.styl"
 
     connect:
       server:
@@ -20,8 +27,11 @@ module.exports = (grunt) ->
       options:
         livereload: true
       app:
-        files: "calendar.coffee"
+        files: "src/calendar.coffee"
         tasks: ["coffee:app"]
+      css:
+        files: "src/calendar.styl"
+        tasks: ["stylus:app"]
 
     nodeunit:
       all: ["tests/**/*.coffee"]
