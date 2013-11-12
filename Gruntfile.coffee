@@ -5,6 +5,8 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON "package.json"
 
     coffee:
+      options:
+        bare: true
       app:
         files:
           "calendar.js": "src/calendar.coffee"
