@@ -34,8 +34,7 @@ Just a small jQuery plugin to render a daily agenda
 
       # Replace content with template
       @$el.empty().append hourSection, eventsSection
-      @$el.css
-        width: @opts.width
+      @$el.css width: @opts.width
 
       @interval  = @opts.height / (@opts.endHour - @opts.startHour)
 
@@ -46,12 +45,33 @@ Just a small jQuery plugin to render a daily agenda
 
       @setCurrentTime currentTimeBar
 
+    ###
+    @name normalizeTime
+    @type function
+    @description
+    To convert start and end time to format used by calendar plugin
+    @param {Object} event Event object with start and end time
+    @returns {Object} Updated event with new start and end time
+    ###
+    normalizeTime: (event) ->
+      start = event.start
+      end   = event.end
+
+      # Convert ISO UTC Datetime
+      if typeof start is "string" and start.indexOf("T") > -1
+        event.start = parseInt(start.split("T")[1].substring(0, 4))
+
+      if typeof end is "string" and end.indexOf("T") > -1
+        event.end = parseInt(end.split("T")[1].substring(0,4))
+
     processEvents: (events) ->
       @events = events.sort (a,b) ->
         a.start - b.start
 
       columnsY = [{top: 0, bottom: 0}]
       for event, index in @events
+        @normalizeTime event
+
         start  = Math.floor(event.start / 100) + ((event.start%100) / 60)
         end    = Math.floor(event.end / 100) + ((event.end%100) / 60)
         top    = @interval * (start - @opts.startHour) - 20
@@ -84,6 +104,13 @@ Just a small jQuery plugin to render a daily agenda
               event.column = columnsY.push(currentColY) - 1
               event.width++
 
+    ###
+    @name populateHours
+    @type function
+    @description
+    Create the side hour section
+    @param {DOM element} element Element to populate hour labels
+    ###
     populateHours: (element) ->
       for hour in [@opts.startHour..@opts.endHour-1]
         period = if hour < 12 then "AM" else "PM"
@@ -93,6 +120,13 @@ Just a small jQuery plugin to render a daily agenda
             top: (hour-@opts.startHour) * @interval
           .appendTo element
 
+    ###
+    @name populateEvents
+    @type function
+    @description
+    Create and position all event boxes
+    @param {DOM element} element Element to populate event boxes
+    ###
     populateEvents: (element) ->
       for event in @events
         width    = (event.width/event.conflict) * 100
@@ -105,6 +139,13 @@ Just a small jQuery plugin to render a daily agenda
             left:   "#{width * event.column}%"
           .appendTo element
 
+    ###
+    @name setCurrentTime
+    @type function
+    @description
+    Update the position of the current time line
+    @param {DOM element} element Current time line
+    ###
     setCurrentTime: (element) ->
       interval = 60/@interval * 1000
       (updatePosition = =>
